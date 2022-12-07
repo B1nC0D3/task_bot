@@ -26,6 +26,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+requests.http
+*.db
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -132,7 +134,3 @@ dmypy.json
 .idea
 .vscode
 
-requests.http
-files/*.doc
-files/*.pdf
-.db

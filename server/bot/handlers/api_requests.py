@@ -1,3 +1,4 @@
+import os
 from http import HTTPStatus
 
 from aiogram.dispatcher import FSMContext
@@ -5,9 +6,12 @@ from aiogram.types import CallbackQuery, Message
 from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientConnectionError
 from aiohttp.client_reqrep import ClientResponse
-from keys import delete_keyboard
+from dotenv import load_dotenv
 
-API_ADDRESS = 'http://127.0.0.1:9000'
+from ..keys import delete_keyboard
+
+load_dotenv()
+API_ADDRESS = os.getenv('API_ADDRESS')
 
 
 async def connect_to_url(

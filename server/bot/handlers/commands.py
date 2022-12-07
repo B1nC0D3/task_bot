@@ -1,7 +1,8 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
-from keys import start_keyboard
-from states import Task
+
+from ..keys import start_keyboard
+from ..states import Task
 
 
 async def start(message: Message):

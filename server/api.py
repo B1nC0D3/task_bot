@@ -1,13 +1,13 @@
-from database import Task, session
+from aiogram import Bot, Dispatcher
+from aiogram.types import Update
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
+
+from bot.main import (WEBHOOK_URL, bot, dp, register_api_requests_handlers,
+                      register_commands_handlers, set_commands)
+from database import Task, session
 
 app = FastAPI()
 TASK_PER_USER = 5
-
-
-class BaseTask(BaseModel):
-    description: str
 
 
 @app.post('/add')
@@ -65,3 +65,24 @@ async def get_tasks(user_id: int):
     return {
         'detail': tasks
     }
+
+
+@app.on_event('startup')
+async def on_startup():
+    register_api_requests_handlers(dp)
+    register_commands_handlers(dp)
+    await set_commands()
+    await bot.set_webhook(WEBHOOK_URL)
+
+
+@app.on_event('shutdown')
+async def on_shutdown():
+    await bot.delete_webhook()
+
+
+@app.post('/')
+async def bot_webhook(update: dict):
+    telegram_update = Update(**update)
+    Dispatcher.set_current(dp)
+    Bot.set_current(bot)
+    await dp.process_update(telegram_update)

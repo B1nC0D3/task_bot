@@ -4,18 +4,16 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters import Text
 from aiogram.types import BotCommand
-from aiogram.utils.executor import start_webhook
 from dotenv import load_dotenv
-from handlers import api_requests, commands
-from states import Task
+
+from .handlers import api_requests, commands
+from .states import Task
 
 load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-WEBHOOK_PATH = ''
-WEBHOOK_URL = 'https://db55-217-72-11-58.ngrok.io'  # ngrok link
-WEBAPP_HOST = 'localhost'
-WEBAPP_PORT = '5000'
+WEBHOOK_URL = 'https://854d-217-72-11-58.ngrok.io'  # ngrok link
+
 
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -63,7 +61,7 @@ def register_api_requests_handlers(dp: Dispatcher):
     )
 
 
-async def set_commands(bot: Bot):
+async def set_commands():
     commands = [
         BotCommand(command='/start', description='Запуск бота'),
         BotCommand(command='/help', description='Помощь'),
@@ -72,26 +70,3 @@ async def set_commands(bot: Bot):
         BotCommand(command='/cancel', description='Отменяет добавление задачи')
     ]
     await bot.set_my_commands(commands)
-
-
-async def on_startup(dp: Dispatcher):
-    register_api_requests_handlers(dp)
-    register_commands_handlers(dp)
-    await set_commands(bot)
-    await bot.set_webhook(WEBHOOK_URL)
-
-
-async def on_shutdown(dp: Dispatcher):
-    await bot.delete_webhook()
-
-
-if __name__ == '__main__':
-    start_webhook(
-        dispatcher=dp,
-        webhook_path=WEBHOOK_PATH,
-        on_startup=on_startup,
-        on_shutdown=on_shutdown,
-        skip_updates=True,
-        host=WEBAPP_HOST,
-        port=WEBAPP_PORT,
-    )
