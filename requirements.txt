@@ -2,4 +2,5 @@ aiogram==2.23.1
 fastapi==0.88.0
 uvicorn==0.20.0
 pyngrok==5.2.1
+python-dotenv==0.21.0
 sqlalchemy==1.4.44
