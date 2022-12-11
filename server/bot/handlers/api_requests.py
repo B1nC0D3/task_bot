@@ -1,5 +1,6 @@
 import os
 from http import HTTPStatus
+from typing import Union
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery, Message
@@ -15,7 +16,8 @@ API_ADDRESS = os.getenv('API_ADDRESS')
 
 
 async def connect_to_url(
-        url: str, request_type: str, params: tuple[tuple]) -> ClientResponse:
+        url: str, request_type: str,
+        params: tuple[tuple[str, Union[str, int]]]) -> ClientResponse:
     url = API_ADDRESS + url
     async with ClientSession() as session:
         try:

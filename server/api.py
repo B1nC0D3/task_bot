@@ -1,10 +1,9 @@
 from aiogram import Bot, Dispatcher
 from aiogram.types import Update
-from fastapi import FastAPI, HTTPException, status
-
 from bot.main import (WEBHOOK_URL, bot, dp, register_api_requests_handlers,
                       register_commands_handlers, set_commands)
 from database import Task, session
+from fastapi import FastAPI, HTTPException, status
 
 app = FastAPI()
 TASK_PER_USER = 5
